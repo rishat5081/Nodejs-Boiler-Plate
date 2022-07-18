@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "role": "node ./Database Operations/Seeding/Role.seed.js",
+    "user": "node ./Database Operations/Seeding/User.seed.js",
+    "admin": "node ./Database Operations/Seeding/Admin.seed.js",
     "start": "node server.js",
     "dev": "nodemon --delay 500ms server.js"
   },
