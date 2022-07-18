@@ -12,7 +12,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const path = require("path");
 let morgan = require("morgan");
-require("./Database Operations/Seeding/User.seed");
+
 app.use(
   bodyParser.json({
     limit: "100mb",
