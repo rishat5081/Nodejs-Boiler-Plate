@@ -21,6 +21,32 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  address_2: {
+    type: String,
+    default: "",
+  },
+  state: {
+    type: String,
+    default: "",
+  },
+  zipCode: {
+    type: String,
+    default: "",
+  },
+  city: {
+    type: String,
+    default: "",
+  },
+  geoLocation: {
+    longitude: {
+      type: String,
+      required: true,
+    },
+    latitude: {
+      type: String,
+      required: true,
+    },
+  },
   gender: {
     type: String,
     default: "",
