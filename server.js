@@ -8,7 +8,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const allRoutes = require("./routes/router");
 const adminRoutes = require("./routes/admin.routes");
-
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const path = require("path");
