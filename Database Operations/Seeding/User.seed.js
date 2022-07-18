@@ -14,7 +14,7 @@ const { color, log } = require("console-log-colors");
   if (seeding.length > 0) {
     log(color.cyan(" ******************************************** "));
     log(color.cyan(" *******                              ******* "));
-    log(color.cyan(" ******* Player Inserted successfully ******* "));
+    log(color.cyan(" ******* User   Inserted successfully ******* "));
     log(color.cyan(" *******                              ******* "));
     log(color.cyan(" ******************************************** "));
     process.exit();
