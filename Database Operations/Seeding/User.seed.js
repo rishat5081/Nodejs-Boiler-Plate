@@ -3,16 +3,20 @@ const UserModel = require("../../models/User");
 const userData = require("../Raw Data/user");
 const { color, log } = require("console-log-colors");
 
-console.log("userData", userData.userData);
-
 (async () => {
-  //   const seeding = await RoleModel.create(roleData.rolesData);
-  //   if (seeding.length > 0) {
-  //     log(color.cyan(" ******************************************** "));
-  //     log(color.cyan(" *******                              ******* "));
-  //     log(color.cyan(" ******* Roles Inserted  successfully ******* "));
-  //     log(color.cyan(" *******                              ******* "));
-  //     log(color.cyan(" ******************************************** "));
-  //     process.exit();
-  //   }
+  const roleData = await RoleModel.findOne({ roleName: "player" }).select(
+    "_id"
+  );
+  const userArray = await userData.userData;
+  const seeding = await UserModel.create(
+    userArray.map((user) => ({ ...user, roleId: roleData?._id }))
+  );
+  if (seeding.length > 0) {
+    log(color.cyan(" ******************************************** "));
+    log(color.cyan(" *******                              ******* "));
+    log(color.cyan(" ******* Player Inserted successfully ******* "));
+    log(color.cyan(" *******                              ******* "));
+    log(color.cyan(" ******************************************** "));
+    process.exit();
+  }
 })();
