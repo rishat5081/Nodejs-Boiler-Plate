@@ -7,34 +7,6 @@ const accessControlValidation = require("../middleware/accessControl");
 
 /**
  * @swagger
- * /v1/user/register:
- *  post:
- *    tags:
- *      - User
- *    description: Register User Route
- *    responses:
- *      200:
- *        description: Success
- */
-router.post("/register", userController.regiserUser);
-/**
- * @swagger
- * /v1/user/login:
- *  post:
- *    tags:
- *      - User
- *    description: Login User Route
- *    responses:
- *      200:
- *        description: Success
- */
-router.post(
-  "/login",
-  requestBodyValidation.checkRequestBody,
-  userController.UserLogin
-);
-/**
- * @swagger
  * /v1/user/userdetail:
  *  get:
  *    tags:
@@ -45,13 +17,7 @@ router.post(
  *        description: Success
  */
 
-router.get(
-  "/userdetail",
-  verifyToken,
-  accessControlValidation.allowIfLoggedin,
-  accessControlValidation.grantAccess("readOwn", "profile"),
-  userController.currentuser
-);
+router.get("/userdetail", userController.currentuser);
 /**
  * @swagger
  * /v1/user/refrestoken:
