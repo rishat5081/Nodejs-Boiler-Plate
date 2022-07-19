@@ -3,6 +3,8 @@ const router = express.Router();
 const userController = require("../controller/user.controller");
 const verifyToken = require("../middleware/auth");
 const requestBodyValidation = require("../middleware/requestBodyValidation");
+const accessControlValidation = require("../middleware/accessControl");
+
 /**
  * @swagger
  * /v1/user/register:
@@ -43,7 +45,13 @@ router.post(
  *        description: Success
  */
 
-router.get("/userdetail", verifyToken, userController.currentuser);
+router.get(
+  "/userdetail",
+  verifyToken,
+  accessControlValidation.allowIfLoggedin,
+  accessControlValidation.grantAccess("readOwn", "profile"),
+  userController.currentuser
+);
 /**
  * @swagger
  * /v1/user/refrestoken:
