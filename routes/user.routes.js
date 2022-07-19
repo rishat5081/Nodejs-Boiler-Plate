@@ -17,11 +17,11 @@ const requestBodyValidation = require("../middleware/requestBodyValidation");
 router.post("/register", userController.regiserUser);
 /**
  * @swagger
- * /v1/user/register:
+ * /v1/user/login:
  *  post:
  *    tags:
  *      - User
- *    description: Register User Route
+ *    description: Login User Route
  *    responses:
  *      200:
  *        description: Success
