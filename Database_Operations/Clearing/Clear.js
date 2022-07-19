@@ -6,15 +6,26 @@ MongoClient.connect(process.env.mongoUrl)
     // Reference of database
     const connect = client.db(process.env.databaseName);
     // Dropping the database
-    connect.dropDatabase();
-    log(color.red(" ******************************************** "));
-    log(color.red(" *******                              ******* "));
-    log(color.red(" *******     Database is Cleared      ******* "));
-    log(color.red(" *******                              ******* "));
-    log(color.red(" ******************************************** "));
-    process.exit();
+    connect
+      .dropDatabase()
+      .then((droppedDatabase) => {
+        if (droppedDatabase) {
+          log(color.red(" ******************************************** "));
+          log(color.red(" *******                              ******* "));
+          log(color.red(" *******     Database is Cleared      ******* "));
+          log(color.red(" *******                              ******* "));
+          log(color.red(" ******************************************** "));
+          process.exit();
+        }
+      })
+      .catch((err) => {
+        console.log("Error Dropping Database");
+        console.trace(err);
+        process.exit();
+      });
   })
   .catch((err) => {
-    console.log("--------------");
-    console.log(err);
+    console.log("Error Dropping Database");
+    console.trace(err);
+    process.exit();
   });
