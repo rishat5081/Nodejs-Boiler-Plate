@@ -107,7 +107,7 @@ module.exports = {
       let _id = req.userId;
 
       console.log("_id", _id);
-      let user = await UserModel.findOne({ _id });
+      let user = await UserModel.findOne({ _id }).select("-password");
       if (user) {
         return res.status(201).json({
           user,
