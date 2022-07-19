@@ -13,12 +13,14 @@ module.exports = {
 
         if (!permission.granted)
           generalResponse.errorResponse(res, httpCodes.UNAUTHORIZED, {
+            status: false,
             error: "You don't have enough permission to perform this action",
           });
         next();
       } catch (error) {
-        generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
-          error: "Error in Checking the Permissions",
+        generalResponse.errorResponse(res, httpCodes.UNAUTHORIZED, {
+          status: false,
+          error: "You don't have enough permission to perform this action",
         });
       }
     };
@@ -28,11 +30,13 @@ module.exports = {
       const user = req?.user;
       if (!user)
         generalResponse.errorResponse(res, httpCodes.UNAUTHORIZED, {
+          status: false,
           error: "You need to be logged in to access this route",
         });
       next();
     } catch (error) {
       generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+        status: false,
         error: "Error in Checking the Permissions Logged In User Status",
       });
     }
