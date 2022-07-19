@@ -4,32 +4,37 @@ const generalResponse = require("../utlls/response");
 const httpCodes = require("../utlls/httpCodestatus");
 
 module.exports = {
-  grantAccess: async (action, resource) => {
+  grantAccess: (action, resource) => {
     return async (req, res, next) => {
       try {
-        const permission = roles.can(req.user.role)[action](resource);
-        if (!permission.granted) {
-          return res.status(401).json({
+        const permission = await roles
+          .can(req?.user?.roleName)
+          [action](resource);
+
+        if (!permission.granted)
+          generalResponse.errorResponse(res, httpCodes.UNAUTHORIZED, {
             error: "You don't have enough permission to perform this action",
           });
-        }
         next();
       } catch (error) {
-        next(error);
+        generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+          error: "Error in Checking the Permissions",
+        });
       }
     };
   },
   allowIfLoggedin: async (req, res, next) => {
     try {
-      const user = res.locals.loggedInUser;
+      const user = req?.user;
       if (!user)
-        return res.status(401).json({
+        generalResponse.errorResponse(res, httpCodes.UNAUTHORIZED, {
           error: "You need to be logged in to access this route",
         });
-      req.user = user;
       next();
     } catch (error) {
-      next(error);
+      generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+        error: "Error in Checking the Permissions Logged In User Status",
+      });
     }
   },
 };
