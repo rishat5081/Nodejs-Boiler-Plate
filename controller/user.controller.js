@@ -104,9 +104,10 @@ module.exports = {
   },
   currentuser: async (req, res) => {
     try {
-      let _id = req._id;
+      let _id = req.userId;
 
-      let user = await UserModel.findOne({ _id: _id });
+      console.log("_id", _id);
+      let user = await UserModel.findOne({ _id });
       if (user) {
         return res.status(201).json({
           user,
