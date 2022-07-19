@@ -4,6 +4,7 @@ const generalResponse = require("../utlls/response");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const httpCodes = require("../utlls/httpCodestatus");
+const generateToken = require("../helper/generateToken");
 let refreshTokens = [];
 const generateAccess_RefreshToken = require("../helper/generateToken");
 
@@ -63,25 +64,18 @@ module.exports = {
       if (!(email && password)) {
         res.status(400).send("All input is required");
       }
-      const user = await UserModel.findOne({ email: email });
+      const user = await UserModel.findOne({ email: email }).populate(
+        "roleId",
+        "roleName"
+      );
       if (!user) {
         res.status(400).send({ message: "user can't exist" });
       }
       if (user && (await bcrypt.compare(password, user.password))) {
-        let accessToken = jwt.sign(user.toJSON(), process.env.TOKEN_KEY, {
-          expiresIn: "15m",
-        });
-        const refreshToken = jwt.sign(
-          user.toJSON(),
-          process.env.REFRESH_TOKEN_KEY,
-          {
-            expiresIn: "15m",
-          }
-        );
-        refreshTokens.push(refreshToken);
+        let accessToken = await generateToken.generateAccess_RefreshToken(user);
+        console.log("v", accessToken);
         return res.status(201).json({
-          accessToken: accessToken,
-          refreshToken: refreshToken,
+          accessToken,
           user,
         });
       }
@@ -290,3 +284,12 @@ module.exports = {
     }
   },
 };
+
+UserModel.findOne()
+  .populate("roleId", "roleName")
+  .then((resp) => {
+    console.log("ress", resp);
+  })
+  .catch((err) => {
+    console.log("err", err);
+  });
