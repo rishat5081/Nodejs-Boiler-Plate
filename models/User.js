@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const userSchema = new mongoose.Schema({
+let Schema = mongoose.Schema;
+require("./Role"); // adding this required because it need to be linked with the user model https://stackoverflow.com/a/27497785/10967697
+const userSchema = new Schema({
   first_name: {
     type: String,
     required: true,
@@ -63,8 +65,8 @@ const userSchema = new mongoose.Schema({
     default: true,
   },
   roleId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user_role",
+    type: Schema.Types.ObjectId,
+    ref: "User_Role",
     required: true,
   },
   isDeleted: {
@@ -73,4 +75,5 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("user", userSchema);
+const user = mongoose.models.User || mongoose.model("User", userSchema);
+module.exports = user;
