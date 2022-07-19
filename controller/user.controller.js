@@ -1,12 +1,12 @@
-const UserModel = require("../models/User");
-const jwt = require("jsonwebtoken");
-const generalResponse = require("../utlls/response");
-const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
-const httpCodes = require("../utlls/httpCodestatus");
-const generateToken = require("../helper/generateToken");
-let refreshTokens = [];
-const generateAccess_RefreshToken = require("../helper/generateToken");
+const UserModel = require("../models/User"),
+  jwt = require("jsonwebtoken"),
+  generalResponse = require("../utlls/response"),
+  bcryptHelper = require("../utlls/bcrypt.helper"),
+  mongoose = require("mongoose"),
+  httpCodes = require("../utlls/httpCodestatus"),
+  generateToken = require("../helper/generateToken"),
+  _ = require("lodash"),
+  generateAccess_RefreshToken = require("../helper/generateToken");
 
 module.exports = {
   regiserUser: async (req, res) => {
@@ -64,19 +64,22 @@ module.exports = {
       if (!(email && password)) {
         res.status(400).send("All input is required");
       }
-      const user = await UserModel.findOne({ email: email }).populate(
+      const user = await UserModel.findOne({ email }).populate(
         "roleId",
         "roleName"
       );
-      if (!user) {
-        res.status(400).send({ message: "user can't exist" });
-      }
-      if (user && (await bcrypt.compare(password, user.password))) {
+      if (!user) res.status(400).send({ message: "user can't exist" });
+
+      if (
+        Object.keys(user).length > 0 &&
+        (await bcryptHelper.compareHashPassword(password, user.password))
+      ) {
         let accessToken = await generateToken.generateAccess_RefreshToken(user);
-        console.log("v", accessToken);
-        return res.status(201).json({
-          accessToken,
-          user,
+        var clone = Object.assign({}, user);
+        delete clone._doc.password;
+        return res.status(200).json({
+          ...accessToken,
+          user: clone._doc,
         });
       }
     } catch (err) {
@@ -284,12 +287,3 @@ module.exports = {
     }
   },
 };
-
-UserModel.findOne()
-  .populate("roleId", "roleName")
-  .then((resp) => {
-    console.log("ress", resp);
-  })
-  .catch((err) => {
-    console.log("err", err);
-  });
