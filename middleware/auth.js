@@ -21,8 +21,7 @@ module.exports = (req, res, next) => {
         message: "Invalid Token Send",
       });
     else {
-      console.log("JWT", decoded);
-      req.userId = decoded._id;
+      req.user = decoded;
       next();
     }
   });

@@ -104,9 +104,7 @@ module.exports = {
   },
   currentuser: async (req, res) => {
     try {
-      let _id = req.userId;
-
-      console.log("_id", _id);
+      let { _id } = req.user;
       let user = await UserModel.findOne({ _id }).select("-password");
       if (user) {
         return res.status(201).json({
