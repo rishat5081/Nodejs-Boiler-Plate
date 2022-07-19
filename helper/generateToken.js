@@ -3,6 +3,7 @@ module.exports = {
   generateAccess_RefreshToken: (user) => {
     return new Promise((resolve, reject) => {
       var token = {};
+      console.log("user ----", user);
       token.accessToken = jwt.sign(
         {
           _id: user?._id,
@@ -10,7 +11,7 @@ module.exports = {
           last_name: user?.last_name,
           email: user?.email,
           roleId: user?.roleId,
-          roleName: user?.roleId[0].roleName,
+          // roleName: user?.roleId[0].roleName,
         },
         process.env.TOKEN_KEY,
         {
