@@ -1,6 +1,8 @@
 const router = require("express").Router();
-const generalResponse = require("../utlls/response");
-const httpCodes = require("../utlls/httpCodestatus");
+const authenticateController = require("../controller/authentication.controller");
+const verifyToken = require("../middleware/auth");
+const requestBodyValidation = require("../middleware/requestBodyValidation");
+const accessControlValidation = require("../middleware/accessControl");
 /**
  * @swagger
  * /v1/:
@@ -18,5 +20,34 @@ router.get("/", (req, res) => {
     message: "Welcome to Now we Play",
   });
 });
+
+/**
+ * @swagger
+ * /v1/register:
+ *  post:
+ *    tags:
+ *      - Authenitcation
+ *    description: Register User Route
+ *    responses:
+ *      200:
+ *        description: Success
+ */
+router.post("/register", authenticateController.regiserUser);
+/**
+ * @swagger
+ * /v1/login:
+ *  post:
+ *    tags:
+ *      - Authenitcation
+ *    description: Login User Route
+ *    responses:
+ *      200:
+ *        description: Success
+ */
+router.post(
+  "/login",
+  requestBodyValidation.checkRequestBody,
+  authenticateController.UserLogin
+);
 
 module.exports = router;
