@@ -1,8 +1,9 @@
 {
   "swaggerDefinition": {
     "info": {
-      "title": "My api",
-      "version": "1.0.0"
+      "title": "Node js BoilerPlate",
+      "version": "0.0.1",
+      "description": "A sample API for Node js Project"
     }
   },
   "apis": ["server.js", "./routes/*.routes.js"]
