@@ -11,6 +11,8 @@ const accessControlValidation = require("../middleware/accessControl");
  *  get:
  *    tags:
  *      - User
+ *    security:              # <--- ADD THIS
+ *      - bearerAuth: []
  *    description: Get User Details Route
  *    responses:
  *      200:

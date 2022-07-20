@@ -1,0 +1,145 @@
+{
+  "info": {
+    "title": "My api",
+    "version": "1.0.0"
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/v1/": {
+      "get": {
+        "tags": ["Home"],
+        "description": "Default Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/register": {
+      "post": {
+        "tags": ["Authenitcation"],
+        "description": "Register User Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/login": {
+      "post": {
+        "tags": ["Authenitcation"],
+        "description": "Login User Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Login to the application",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "username",
+            "description": "Username to use for login.",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "description": "User's password.",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "login"
+          }
+        }
+      }
+    },
+    "/v1/user/userdetail": {
+      "get": {
+        "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Get User Details Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/user/refrestoken": {
+      "post": {
+        "tags": ["User"],
+        "description": "Refresh Token Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/user/updateUserProfile": {
+      "put": {
+        "tags": ["User"],
+        "description": "Refresh Token Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/user/deletUser": {
+      "delete": {
+        "tags": ["User"],
+        "description": "Delete User Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/user/resetPassword": {
+      "put": {
+        "tags": ["User"],
+        "description": "Reset Password Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/user/uploadProfileImage": {
+      "post": {
+        "tags": ["User"],
+        "description": "Reset Password Route",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {},
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}

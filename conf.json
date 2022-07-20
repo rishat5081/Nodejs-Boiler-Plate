@@ -1,0 +1,9 @@
+{
+  "swaggerDefinition": {
+    "info": {
+      "title": "My api",
+      "version": "1.0.0"
+    }
+  },
+  "apis": ["server.js", "./routes/*.routes.js"]
+}
