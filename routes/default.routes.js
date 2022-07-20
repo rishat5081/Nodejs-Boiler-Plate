@@ -40,9 +40,7 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: string
  *          maximum: 50
- *        examples:
- *          email:
- *            value: test@gmail.com
+ *          example: test@gmail.com
  *      - name: password
  *        description: User's password.
  *        in: formData
@@ -51,9 +49,7 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: string
  *          maximum: 50
- *        examples:
- *          password:
- *            value:test@12345
+ *          example: test@12345
  *      - name: first_name
  *        description: First Name of the User.
  *        in: formData
@@ -62,9 +58,7 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: string
  *          maximum: 50
- *        examples:
- *          first_name:
- *            value:John
+ *          example: John
  *      - name: last_name
  *        description:  Last Name of the User.
  *        in: formData
@@ -73,9 +67,7 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: string
  *          maximum: 50
- *        examples:
- *          last_name:
- *            value:Doe
+ *          example: Doe
  *      - name: address
  *        description: Address of the User.
  *        in: formData
@@ -84,9 +76,7 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: string
  *          maximum: 50
- *        examples:
- *          address:
- *            value:House 6 Street 23 DHA Phase 76 Islamabad
+ *          example: House 6 Street 23 DHA Phase 76 Islamabad
  *      - name: contactNumber
  *        description:  Contact Number of the User.
  *        in: formData
@@ -95,9 +85,7 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: number
  *          maximum: 50
- *        examples:
- *          contactNumber:
- *            value:0900 786501
+ *          example: 0900 786501
  *      - name: gender
  *        description:  Gender Can only be male, female, others.
  *        in: formData
@@ -106,9 +94,43 @@ router.get("/", (req, res) => {
  *        schema:
  *          type: string
  *          maximum: 50
- *        examples:
- *          gender:
- *            value:male, female, others
+ *          example: male, female, others
+ *      - name: dateOfBirth
+ *        description:  Date of Birth.
+ *        in: formData
+ *        required: true
+ *        type: date
+ *        schema:
+ *          type: date
+ *          maximum: 50
+ *          example: 13/Jan/1948
+ *      - name: state
+ *        description:  State of your current location.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: Punjab
+ *      - name: city
+ *        description:  city of your current location.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: Islamabad
+ *      - name: zipCode
+ *        description:  Zip Code of your place.
+ *        in: formData
+ *        required: true
+ *        type: number
+ *        schema:
+ *          type: number
+ *          maximum: 50
+ *          example: 46000
  *    responses:
  *      200:
  *        description: Success
