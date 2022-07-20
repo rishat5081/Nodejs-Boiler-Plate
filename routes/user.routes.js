@@ -11,8 +11,8 @@ const accessControlValidation = require("../middleware/accessControl");
  *  get:
  *    tags:
  *      - User
- *    security:              # <--- ADD THIS
- *      - bearerAuth: []
+ *    security:
+ *      - auth: []
  *    description: Get User Details Route
  *    responses:
  *      200:
@@ -47,6 +47,8 @@ router.get(
  *  put:
  *    tags:
  *      - User
+ *    security:
+ *      - auth: []
  *    description: Refresh Token Route
  *    responses:
  *      200:
@@ -66,6 +68,8 @@ router.put(
  *  delete:
  *    tags:
  *      - User
+ *    security:
+ *      - auth: []
  *    description: Delete User Route
  *    responses:
  *      200:
@@ -83,6 +87,8 @@ router.delete(
  *  put:
  *    tags:
  *      - User
+ *    security:
+ *      - auth: []
  *    description: Reset Password Route
  *    responses:
  *      200:
@@ -102,6 +108,8 @@ router.put(
  *  post:
  *    tags:
  *      - User
+ *    security:
+ *      - auth: []
  *    description: Reset Password Route
  *    responses:
  *      200:
