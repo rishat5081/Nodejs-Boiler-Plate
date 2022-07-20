@@ -31,6 +31,73 @@ router.get("/", (req, res) => {
  *    tags:
  *      - Authenitcation
  *    description: Register User Route
+ *    parameters:
+ *      - name: email
+ *        description: Email to use for login.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *        examples:
+ *          email:
+ *            value: test@gmail.com
+ *      - name: password
+ *        description: User's password.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *        examples:
+ *          password:
+ *            value:test@12345
+ *      - name: first_name
+ *        description: First Name of the User.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *        examples:
+ *          first_name:
+ *            value:John
+ *      - name: last_name
+ *        description:  Last Name of the User.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *        examples:
+ *          last_name:
+ *            value:Doe
+ *      - name: address
+ *        description: Address of the User.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *        examples:
+ *          address:
+ *            value:House 6 Street 23 DHA Phase 76 Islamabad
+ *      - name: contactNumber
+ *        description:  Contact Number of the User.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *        examples:
+ *          contactNumber:
+ *            value:0900 786501
  *    responses:
  *      200:
  *        description: Success
@@ -43,6 +110,25 @@ router.post("/register", authenticateController.regiserUser);
  *    tags:
  *      - Authenitcation
  *    description: Login User Route
+ *    parameters:
+ *      - name: email
+ *        description: Email to use for login.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: test@gmail.com
+ *      - name: password
+ *        description: User's password.
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: test@123
  *    responses:
  *      200:
  *        description: Success
@@ -54,26 +140,3 @@ router.post(
 );
 
 module.exports = router;
-
-/**
- * @swagger
- * /login:
- *   post:
- *     description: Login to the application
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: username
- *         description: Username to use for login.
- *         in: formData
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's password.
- *         in: formData
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: login
- */
