@@ -13,16 +13,17 @@ module.exports = (req, res, next) => {
       status: false,
       message: "No Access Token Provided",
     });
-
-  jwt.verify(jwtToken, process.env.TOKEN_KEY, (err, decoded) => {
-    if (err)
-      generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-        status: false,
-        message: "Invalid Token Send",
-      });
-    else {
-      req.user = decoded;
-      next();
-    }
-  });
+  else {
+    jwt.verify(jwtToken, process.env.TOKEN_KEY, (err, decoded) => {
+      if (err)
+        generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+          status: false,
+          message: "Invalid Token Send",
+        });
+      else {
+        req.user = decoded;
+        next();
+      }
+    });
+  }
 };
