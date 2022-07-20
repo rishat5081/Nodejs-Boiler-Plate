@@ -56,24 +56,31 @@ app.use("/admin", adminRoutes);
 
 const swaggerOption = {
   definition: {
-    openapi: "3.0.1", // YOU NEED THIS
+    // openapi: "3.0.1", // YOU NEED THIS
     info: {
       // API informations (required)
       title: "Node js BoilerPlate", // Title (required)
       version: "1.0.0", // Version (required)
       description: "A sample API for Node js Project", // Description (optional),
     },
-    consumes: ["*"],
-    produces: ["*"],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
+    securityDefinitions: {
+      auth: {
+        type: "apiKey",
+        name: "Authorization",
       },
     },
+    // security: [{ auth: [] }],
+    // consumes: ["*"],
+    // produces: ["*"],
+    // components: {
+    //   securitySchemes: {
+    //     bearerAuth: {
+    //       type: "http",
+    //       scheme: "bearer",
+    //       bearerFormat: "JWT",
+    //     },
+    //   },
+    // },
     // security: [
     //   {
     //     BearerAuth: [],
