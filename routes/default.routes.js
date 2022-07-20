@@ -91,13 +91,24 @@ router.get("/", (req, res) => {
  *        description:  Contact Number of the User.
  *        in: formData
  *        required: true
+ *        type: number
+ *        schema:
+ *          type: number
+ *          maximum: 50
+ *        examples:
+ *          contactNumber:
+ *            value:0900 786501
+ *      - name: gender
+ *        description:  Gender Can only be male, female, others.
+ *        in: formData
+ *        required: true
  *        type: string
  *        schema:
  *          type: string
  *          maximum: 50
  *        examples:
- *          contactNumber:
- *            value:0900 786501
+ *          gender:
+ *            value:male, female, others
  *    responses:
  *      200:
  *        description: Success
