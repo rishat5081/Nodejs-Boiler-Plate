@@ -12,12 +12,6 @@ const accessControlValidation = require("../middleware/accessControl");
  */
 router.use("/", GeneralRoutes);
 
-router.use(
-  "/user",
-  verifyToken,
-  accessControlValidation.allowIfLoggedin,
-  accessControlValidation.grantAccess("readOwn", "profile"),
-  User
-);
+router.use("/user", verifyToken, accessControlValidation.allowIfLoggedin, User);
 
 module.exports = router;
