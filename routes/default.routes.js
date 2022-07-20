@@ -1,8 +1,6 @@
 const router = require("express").Router();
 const authenticateController = require("../controller/authentication.controller");
-const verifyToken = require("../middleware/auth");
 const requestBodyValidation = require("../middleware/requestBodyValidation");
-const accessControlValidation = require("../middleware/accessControl");
 const generalResponse = require("../utlls/response");
 const httpCodes = require("../utlls/httpCodestatus");
 
