@@ -1,8 +1,25 @@
 {
+  "openapi": "3.0.1",
   "info": {
-    "title": "My api",
-    "version": "1.0.0"
+    "title": "Node js BoilerPlate",
+    "version": "0.0.1",
+    "description": "A sample API for Node js Project"
   },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5050",
+      "description": "Local Server"
+    }
+  ],
   "swagger": "2.0",
   "paths": {
     "/v1/": {
@@ -24,7 +41,7 @@
           {
             "name": "email",
             "description": "Email to use for login.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -36,7 +53,7 @@
           {
             "name": "password",
             "description": "User's password.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -48,7 +65,7 @@
           {
             "name": "first_name",
             "description": "First Name of the User.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -60,7 +77,7 @@
           {
             "name": "last_name",
             "description": "Last Name of the User.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -72,7 +89,7 @@
           {
             "name": "address",
             "description": "Address of the User.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -84,7 +101,7 @@
           {
             "name": "contactNumber",
             "description": "Contact Number of the User.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "number",
             "schema": {
@@ -96,7 +113,7 @@
           {
             "name": "gender",
             "description": "Gender Can only be male, female, others.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -108,11 +125,11 @@
           {
             "name": "dateOfBirth",
             "description": "Date of Birth.",
-            "in": "formData",
+            "in": "body",
             "required": true,
-            "type": "date",
+            "type": "string",
             "schema": {
-              "type": "date",
+              "type": "string",
               "maximum": 50,
               "example": "13/Jan/1948"
             }
@@ -120,7 +137,7 @@
           {
             "name": "state",
             "description": "State of your current location.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -132,7 +149,7 @@
           {
             "name": "city",
             "description": "city of your current location.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -144,7 +161,7 @@
           {
             "name": "zipCode",
             "description": "Zip Code of your place.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "number",
             "schema": {
@@ -169,7 +186,7 @@
           {
             "name": "email",
             "description": "Email to use for login.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
@@ -181,13 +198,13 @@
           {
             "name": "password",
             "description": "User's password.",
-            "in": "formData",
+            "in": "body",
             "required": true,
             "type": "string",
             "schema": {
               "type": "string",
               "maximum": 50,
-              "example": "test@123"
+              "example": "test@12345"
             }
           }
         ],

@@ -97,11 +97,11 @@ router.get("/", (req, res) => {
  *        description:  Date of Birth.
  *        in: formData
  *        required: true
- *        type: date
+ *        type: string
  *        schema:
- *          type: date
+ *          type: string
  *          maximum: 50
- *          example: 13/Jan/1948
+ *          example: date
  *      - name: state
  *        description:  State of your current location.
  *        in: formData
@@ -124,16 +124,20 @@ router.get("/", (req, res) => {
  *        description:  Zip Code of your place.
  *        in: formData
  *        required: true
- *        type: number
+ *        type: string
  *        schema:
- *          type: number
+ *          type: string
  *          maximum: 50
- *          example: 46000
+ *          example: zip
  *    responses:
  *      200:
  *        description: Success
  */
-router.post("/register", authenticateController.regiserUser);
+router.post(
+  "/register",
+  requestBodyValidation.checkRequestBody,
+  authenticateController.regiserUser
+);
 /**
  * @swagger
  * /v1/login:
@@ -159,7 +163,7 @@ router.post("/register", authenticateController.regiserUser);
  *        schema:
  *          type: string
  *          maximum: 50
- *          example: test@123
+ *          example: test@12345
  *    responses:
  *      200:
  *        description: Success

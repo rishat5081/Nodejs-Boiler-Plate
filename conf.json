@@ -1,10 +1,28 @@
 {
   "swaggerDefinition": {
+    "openapi": "3.0.1",
+
     "info": {
       "title": "Node js BoilerPlate",
       "version": "0.0.1",
       "description": "A sample API for Node js Project"
-    }
+    },
+    "components": {
+      "securitySchemes": {
+        "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5050",
+        "description": "Local Server"
+      }
+    ]
   },
+  "schemes": ["https", "http"],
   "apis": ["server.js", "./routes/*.routes.js"]
 }
