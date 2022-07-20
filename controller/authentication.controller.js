@@ -10,7 +10,20 @@ const UserModel = require("../models/User"),
 module.exports = {
   regiserUser: async (req, res) => {
     try {
-      const { first_name, last_name, email, password, ...rest } = req.body;
+      const {
+        first_name,
+        last_name,
+        email,
+        password,
+        address,
+        addressSecondary,
+        state,
+        zipCode,
+        city,
+        gender,
+        dateOfBirth,
+        contactNumber,
+      } = req.body;
 
       //checking if the user already registered or not
       const oldUser = await UserModel.findOne({ email });
@@ -28,24 +41,31 @@ module.exports = {
           roleName: rolesInApplication.user,
         }).select("_id");
 
-        //getting the location
+        //getting the location from the IP address
         const location = await fetchLocation.fetchLocationUsingIP(req.ip);
-        //creating the new user model
+        //registering a new user
         const newUser = await UserModel.create({
           first_name,
           last_name,
           email,
           password: encryptedPassword,
+          address,
+          addressSecondary,
+          state,
+          zipCode,
+          city,
+          gender,
+          dateOfBirth,
+          contactNumber,
           roleId: roleId?._id,
           geoLocation: {
             longitude: location?.longitude,
             latitude: location?.latitude,
           },
-          ...rest,
         });
 
         if (newUser?._id)
-          generalResponse.errorResponse(res, httpCodestatus.OK, {
+          generalResponse.errorResponse(res, httpCodestatus.CONFLICT, {
             message: "User Register Successfully",
           });
         else
