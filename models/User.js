@@ -23,7 +23,7 @@ const userSchema = new Schema({
     type: String,
     default: "",
   },
-  address_2: {
+  addressSecondary: {
     type: String,
     default: "",
   },
@@ -52,6 +52,8 @@ const userSchema = new Schema({
   gender: {
     type: String,
     default: "",
+    lowercase: true,
+    enum: ["male, female", "others"],
   },
   dateOfBirth: {
     type: String,
@@ -59,6 +61,7 @@ const userSchema = new Schema({
   },
   contactNumber: {
     type: Number,
+    default: 0.0,
   },
   isNewProfile: {
     type: Boolean,
