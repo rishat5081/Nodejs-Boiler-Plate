@@ -19,23 +19,27 @@ const accessControlValidation = require("../middleware/accessControl");
  *        description: Success
  */
 
-router.get("/userdetail", userController.currentuser);
-/**
- * @swagger
- * /v1/user/refrestoken:
- *  post:
- *    tags:
- *      - User
- *    description: Refresh Token Route
- *    responses:
- *      200:
- *        description: Success
- */
-router.post(
-  "/refrestoken",
-  requestBodyValidation.checkRequestBody,
-  userController.refreshToken
+router.get(
+  "/userdetail",
+  accessControlValidation.grantAccess("readOwn", "profile"),
+  userController.currentuser
 );
+// /**
+//  * @swagger
+//  * /v1/user/refrestoken:
+//  *  post:
+//  *    tags:
+//  *      - User
+//  *    description: Refresh Token Route
+//  *    responses:
+//  *      200:
+//  *        description: Success
+//  */
+// router.post(
+//   "/refrestoken",
+//   requestBodyValidation.checkRequestBody,
+//   userController.refreshToken
+// );
 
 /**
  * @swagger
@@ -51,6 +55,7 @@ router.post(
 
 router.put(
   "/updateUserProfile",
+  accessControlValidation.grantAccess("updateOwn", "profile"),
   requestBodyValidation.checkRequestBody,
   userController.updateProfileUser
 );
@@ -67,7 +72,11 @@ router.put(
  *        description: Success
  */
 
-router.delete("/deletuser/:id", userController.deletUserById);
+router.delete(
+  "/deleteProfile",
+  accessControlValidation.grantAccess("deleteOwn", "profile"),
+  userController.deletUserById
+);
 /**
  * @swagger
  * /v1/user/resetPassword:
@@ -82,6 +91,7 @@ router.delete("/deletuser/:id", userController.deletUserById);
 
 router.put(
   "/resetPassword",
+  accessControlValidation.grantAccess("updateOwn", "profile"),
   requestBodyValidation.checkRequestBody,
   userController.deletUserById
 );
@@ -100,6 +110,7 @@ router.put(
 
 router.post(
   "/uploadProfileImage",
+  accessControlValidation.grantAccess("updateOwn", "profile"),
   requestBodyValidation.checkRequestBody,
   userController.uploadProfileImage
 );
