@@ -1,57 +1,64 @@
 const UserModel = require("../models/User"),
+  RoleModel = require("../models/Role"),
   generalResponse = require("../utlls/response"),
   bcryptHelper = require("../utlls/bcrypt.helper"),
   httpCodestatus = require("../utlls/httpCodestatus"),
-  generateToken = require("../helper/generateToken");
+  rolesInApplication = require("../config/Role/role"),
+  generateToken = require("../helper/generateToken"),
+  fetchLocation = require("../utlls/fetchLocation.helper");
 
 module.exports = {
   regiserUser: async (req, res) => {
     try {
-      const { first_name, last_name, email, password, address, contactNumber } =
-        req.body;
-      if (
-        !(
-          email &&
-          password &&
-          first_name &&
-          last_name &&
-          address &&
-          contactNumber
-        )
-      ) {
-        res.status(400).send({ messge: "some field is missing" });
-      }
+      const { first_name, last_name, email, password, ...rest } = req.body;
+
+      //checking if the user already registered or not
       const oldUser = await UserModel.findOne({ email });
 
-      if (oldUser) {
-        return res.status(httpCodestatus.Unauthorized).send({
+      if (oldUser)
+        generalResponse.errorResponse(res, httpCodestatus.CONFLICT, {
           message: "User Already Exist. Please Provide another email",
         });
-      } else {
-        encryptedPassword = await bcrypt.hash(password, 10);
-        if (
-          email &&
-          password &&
-          first_name &&
-          last_name &&
-          address &&
-          contactNumber
-        ) {
-          const user = await UserModel.create({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            password: encryptedPassword,
-            address: req.body.address,
-            contactNumber: req.body.contactNumber,
-          });
+      else {
+        const encryptedPassword = await bcryptHelper.generateHashPassword(
+          password
+        );
 
-          res.status(201).send({ user, message: "user Rigster Successfully" });
-        }
+        const roleId = await RoleModel.findOne({
+          roleName: rolesInApplication.user,
+        }).select("_id");
+
+        //getting the location
+        const location = await fetchLocation.fetchLocationUsingIP(req.ip);
+        //creating the new user model
+        const newUser = await UserModel.create({
+          first_name,
+          last_name,
+          email,
+          password: encryptedPassword,
+          roleId: roleId?._id,
+          geoLocation: {
+            longitude: location?.longitude,
+            latitude: location?.latitude,
+          },
+          ...rest,
+        });
+
+        if (newUser?._id)
+          generalResponse.errorResponse(res, httpCodestatus.OK, {
+            message: "User Register Successfully",
+          });
+        else
+          generalResponse.errorResponse(res, httpCodestatus.PARTIAL_CONTENT, {
+            message: "Error Registering User",
+          });
       }
     } catch (err) {
-      console.log(err);
-      res.status(500).send(err);
+      console.log("err", err);
+      generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
+        message: "Error Registering User",
+        serverError: err,
+      });
     }
   },
   UserLogin: async (req, res) => {
