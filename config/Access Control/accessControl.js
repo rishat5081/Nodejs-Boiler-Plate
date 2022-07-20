@@ -3,7 +3,19 @@ const ac = new AccessControl();
 const Stakeholders = require("../Role/role");
 
 exports.roles = (function () {
-  ac.grant(Stakeholders.user).readOwn("profile").updateOwn("profile");
+  /**
+   *
+   * Granting the access to the user
+   */
+  ac.grant(Stakeholders.user)
+    .createOwn("profile")
+    .readOwn("profile")
+    .updateOwn("profile")
+    .deleteOwn("profile");
+  /**
+   *
+   * Granting the access to the admin
+   */
   ac.grant(Stakeholders.admin)
     .extend(Stakeholders.user)
     .updateAny("profile")
