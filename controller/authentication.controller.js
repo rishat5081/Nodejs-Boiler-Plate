@@ -85,18 +85,22 @@ module.exports = {
     try {
       const { email, password } = req.body;
       if (!(email && password)) {
-        res.status(400).send("All input is required");
+        return res.status(400).send("All input is required");
       }
       const user = await UserModel.findOne({ email }).populate(
         "roleId",
         "roleName"
       );
-      if (!user) res.status(400).send({ message: "user can't exist" });
 
-      if (
-        Object.keys(user).length > 0 &&
-        (await bcryptHelper.compareHashPassword(password, user.password))
-      ) {
+      if (!user) return res.status(400).send({ message: "user can't exist" });
+
+      if (!(await bcryptHelper.compareHashPassword(password, user.password))) {
+        generalResponse.errorResponse(res, httpCodestatus.BAD_REQUEST, {
+          message: "Invalid Password",
+        });
+      } else {
+        console.log("user", user);
+
         let accessToken = await generateToken.generateAccess_RefreshToken(user);
         var clone = Object.assign({}, user);
         delete clone._doc.password;
@@ -106,7 +110,10 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
+      generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
+        message: "Error Login In User",
+        serverError: err,
+      });
     }
   },
 };
