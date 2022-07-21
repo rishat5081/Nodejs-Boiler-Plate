@@ -175,25 +175,26 @@ module.exports = {
     }
   },
   deletUserById: async (req, res) => {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(404).send({ error: "invalid user Id" });
-    }
+    const { _id } = req.user;
+    try {
+      const userRemoved = UserModel.updateOne({ _id }, { isDeleted: true });
 
-    const userdelet = UserModel.findByIdAndRemove(req.params.id)
-      .then((user) => {
-        if (user) {
-          return res
-            .status(200)
-            .json({ success: true, message: "the user is remove" });
-        } else {
-          return res
-            .status(400)
-            .json({ success: false, message: "the id can't match" });
-        }
-      })
-      .catch((err) => {
-        return res.status(500).json({ success: false, error: err });
+      if (userRemoved)
+        generalResponse.successResponse(res, httpCodes.OK, {
+          status: true,
+          message: "User Removed Successfully",
+        });
+      else
+        generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+          status: true,
+          message: "Unable to Remove User",
+        });
+    } catch (error) {
+      generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+        status: false,
+        message: error.message,
       });
+    }
   },
   resetPassword: async (req, res) => {
     try {
