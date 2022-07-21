@@ -174,7 +174,7 @@ module.exports = {
       });
     }
   },
-  deletUserById: async (req, res) => {
+  deleteCurrentUser: async (req, res) => {
     const { _id } = req.user;
     try {
       const userRemoved = UserModel.updateOne({ _id }, { isDeleted: true });

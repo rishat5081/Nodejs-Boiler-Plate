@@ -168,7 +168,7 @@ router.put(
 router.delete(
   "/deleteProfile",
   accessControlValidation.grantAccess("deleteOwn", "profile"),
-  userController.deletUserById
+  userController.deleteCurrentUser
 );
 /**
  * @swagger
