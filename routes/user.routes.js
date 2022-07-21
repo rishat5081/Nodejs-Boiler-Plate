@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controller/user.controller");
+const { uploadImage } = require("../config/Multer/multer");
 const requestBodyValidation = require("../middleware/requestBodyValidation");
 const accessControlValidation = require("../middleware/accessControl");
 
@@ -267,6 +268,7 @@ router.put(
 router.post(
   "/uploadProfileImage",
   accessControlValidation.grantAccess("updateOwn", "profile"),
+  uploadImage,
   userController.uploadProfileImage
 );
 
