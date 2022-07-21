@@ -118,22 +118,37 @@ module.exports = {
   },
   updateProfileUser: async (req, res) => {
     try {
-      let { password } = req.body;
-      encryptedPassword = await bcrypt.hash(password, 10);
+      let {
+        first_name,
+        last_name,
+        email,
+        address,
+        addressSecondary,
+        state,
+        zipCode,
+        city,
+        gender,
+        dateOfBirth,
+        contactNumber,
+      } = req.body;
+      const { _id: userId } = req.user;
 
-      const updataUser = await UserModel.findByIdAndUpdate(
-        req.params.id,
+      const updataUser = await UserModel.findOneAndUpdate(
         {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          richDescription: req.body.richDescription,
-          email: req.body.email,
-          address: req.body.address,
-          contactNumber: req.body.contactNumber,
-          password: encryptedPassword,
+          _id: userId,
         },
         {
-          new: true,
+          first_name,
+          last_name,
+          email,
+          address,
+          addressSecondary,
+          state,
+          zipCode,
+          city,
+          gender,
+          dateOfBirth,
+          contactNumber,
         }
       );
       if (!updataUser) {
