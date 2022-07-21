@@ -13,7 +13,7 @@ module.exports = {
         },
         process.env.TOKEN_KEY,
         {
-          expiresIn: "5m",
+          expiresIn: "50m",
         }
       );
       token.refreshToken = jwt.sign(
