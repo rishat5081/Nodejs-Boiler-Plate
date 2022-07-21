@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controller/user.controller");
-const uploadImage = require("../config/Multer/multer");
 const requestBodyValidation = require("../middleware/requestBodyValidation");
 const accessControlValidation = require("../middleware/accessControl");
 
@@ -268,10 +267,9 @@ router.put(
 router.post(
   "/uploadProfileImage",
   accessControlValidation.grantAccess("updateOwn", "profile"),
-
   userController.uploadProfileImage
 );
 
 module.exports = router;
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmQ2Y2MyZDdkYzYwYzcyNDc3NzgxYzkiLCJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwicm9sZU5hbWUiOiJhZG1pbiIsImlhdCI6MTY1ODQxMzYxNSwiZXhwIjoxNjU4NDE2NjE1fQ.z99ZgMvkQMrvtWIraL0IFNlIZFL-FYo44ACtQ0PkXgk
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmQ2Y2MyZDdkYzYwYzcyNDc3NzgxYzkiLCJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwicm9sZU5hbWUiOiJhZG1pbiIsImlhdCI6MTY1ODQxNjc5MiwiZXhwIjoxNjU4NDQ2NzkyfQ.hm6Ml-kCBuzb0__8z_Nq5O5-pyq101n73aur7QV5ka4
