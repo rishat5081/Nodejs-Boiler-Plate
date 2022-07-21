@@ -40,10 +40,10 @@ module.exports = {
         dateOfBirth,
         contactNumber,
       } = req.body;
-      const { _id: userId } = req.user;
+      const { _id } = req.user;
       const updataUser = await UserModel.findOneAndUpdate(
         {
-          _id: userId,
+          _id,
         },
         {
           first_name,
@@ -59,6 +59,8 @@ module.exports = {
           contactNumber,
         }
       );
+
+      console.log("updataUser", updataUser);
       if (!updataUser)
         generalResponse.successResponse(res, httpCodes.BAD_REQUEST, {
           status: true,
@@ -100,28 +102,37 @@ module.exports = {
   },
   resetPassword: async (req, res) => {
     try {
-      const { password } = req.body;
-      const { _id } = req.user;
-      const hashedPassword = await bcryptHelper.generateHashPassword(password);
-      const userPasswordUpdate = await UserModel.updateOne(
-        {
-          _id,
-        },
-        {
-          password: hashedPassword,
-        }
-      );
-
-      if (userPasswordUpdate)
-        generalResponse.successResponse(res, httpCodes.OK, {
+      const { newPassword, confirmPassword } = req.body;
+      if (newPassword !== confirmPassword)
+        generalResponse.successResponse(res, httpCodes.BAD_REQUEST, {
           status: true,
-          message: "Password is Updated Successfully",
+          message: "Password & Confirm Password should be equal",
         });
-      else
-        generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-          status: false,
-          message: "Password is not Updated",
-        });
+      else {
+        const { _id } = req.user;
+        const hashedPassword = await bcryptHelper.generateHashPassword(
+          newPassword
+        );
+        const userPasswordUpdate = await UserModel.updateOne(
+          {
+            _id,
+          },
+          {
+            password: hashedPassword,
+          }
+        );
+
+        if (userPasswordUpdate)
+          generalResponse.successResponse(res, httpCodes.OK, {
+            status: true,
+            message: "Password is Updated Successfully",
+          });
+        else
+          generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+            status: false,
+            message: "Password is not Updated",
+          });
+      }
     } catch (error) {
       generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
         status: false,
@@ -129,6 +140,7 @@ module.exports = {
       });
     }
   },
+
   confirmPassword: async (req, res) => {
     try {
       const { password } = req.body;
@@ -138,7 +150,10 @@ module.exports = {
       }).select("password");
 
       if (userPassword?._id) {
-        const match = await bcrypt.compare(password, userPassword.password);
+        const match = await bcryptHelper.compareHashPassword(
+          password,
+          userPassword.password
+        );
 
         if (match)
           generalResponse.successResponse(res, httpCodes.OK, {
