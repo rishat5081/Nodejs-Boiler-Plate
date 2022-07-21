@@ -188,7 +188,28 @@ router.put(
   "/resetPassword",
   accessControlValidation.grantAccess("updateOwn", "profile"),
   requestBodyValidation.checkRequestBody,
-  userController.deletUserById
+  userController.resetPassword
+);
+
+/**
+ * @swagger
+ * /v1/user/confirmPassword:
+ *  put:
+ *    tags:
+ *      - User
+ *    security:
+ *      - auth: []
+ *    description: confirm Password Route
+ *    responses:
+ *      200:
+ *        description: Success
+ */
+
+router.put(
+  "/confirmPassword",
+  accessControlValidation.grantAccess("updateOwn", "profile"),
+  requestBodyValidation.checkRequestBody,
+  userController.confirmPassword
 );
 
 /**
