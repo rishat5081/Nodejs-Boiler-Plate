@@ -132,7 +132,6 @@ module.exports = {
         contactNumber,
       } = req.body;
       const { _id: userId } = req.user;
-
       const updataUser = await UserModel.findOneAndUpdate(
         {
           _id: userId,
@@ -151,13 +150,21 @@ module.exports = {
           contactNumber,
         }
       );
-      if (!updataUser) {
-        res.status(400).send({ message: "Invalid user Id" });
-      }
-      res.status(200).send(updataUser);
+      if (!updataUser)
+        generalResponse.successResponse(res, httpCodes.BAD_REQUEST, {
+          status: true,
+          message: "No User Found",
+        });
+      else
+        generalResponse.successResponse(res, httpCodes.BAD_REQUEST, {
+          status: true,
+          message: "Profile is Updated Successfully",
+        });
     } catch (error) {
-      console.log(error);
-      res.status(500).send({ success: false, error: error });
+      generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+        status: false,
+        message: error.message,
+      });
     }
   },
   deletUserById: async (req, res) => {
