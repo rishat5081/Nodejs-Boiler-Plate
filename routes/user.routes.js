@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controller/user.controller");
-const verifyToken = require("../middleware/auth");
+const uploadImage = require("../config/Multer/multer");
 const requestBodyValidation = require("../middleware/requestBodyValidation");
 const accessControlValidation = require("../middleware/accessControl");
 
 /**
  * @swagger
- * /v1/user/userdetail:
+ * /v1/user/userProfileDetail:
  *  get:
  *    tags:
  *      - User
@@ -20,7 +20,7 @@ const accessControlValidation = require("../middleware/accessControl");
  */
 
 router.get(
-  "/userdetail",
+  "/userProfileDetail",
   accessControlValidation.grantAccess("readOwn", "profile"),
   userController.getProfileDetails
 );
@@ -153,7 +153,7 @@ router.put(
 
 /**
  * @swagger
- * /v1/user/deletUser:
+ * /v1/user/deleteProfile:
  *  delete:
  *    tags:
  *      - User
@@ -179,6 +179,31 @@ router.delete(
  *    security:
  *      - auth: []
  *    description: Reset Password Route
+ *    parameters:
+ *      - name: oldPassword
+ *        description:  Old Password.
+ *        in: formData
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: admin123
+ *      - name: newPassword
+ *        description:  New Password.
+ *        in: formData
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: admin1234
+ *      - name: confirmPassword
+ *        description:  Confirm Password.
+ *        in: formData
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: admin1234
  *    responses:
  *      200:
  *        description: Success
@@ -200,6 +225,15 @@ router.put(
  *    security:
  *      - auth: []
  *    description: confirm Password Route
+ *    parameters:
+ *      - name: password
+ *        description:  Enter Current Password.
+ *        in: formData
+ *        type: string
+ *        schema:
+ *          type: string
+ *          maximum: 50
+ *          example: admin1234
  *    responses:
  *      200:
  *        description: Success
@@ -221,6 +255,11 @@ router.put(
  *    security:
  *      - auth: []
  *    description: Reset Password Route
+ *    parameters:
+ *      - name: image
+ *        description:  Upload Image.
+ *        in: formData
+ *        type: file
  *    responses:
  *      200:
  *        description: Success
@@ -229,8 +268,10 @@ router.put(
 router.post(
   "/uploadProfileImage",
   accessControlValidation.grantAccess("updateOwn", "profile"),
-  requestBodyValidation.checkRequestBody,
+
   userController.uploadProfileImage
 );
 
 module.exports = router;
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmQ2Y2MyZDdkYzYwYzcyNDc3NzgxYzkiLCJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwicm9sZU5hbWUiOiJhZG1pbiIsImlhdCI6MTY1ODQxMzYxNSwiZXhwIjoxNjU4NDE2NjE1fQ.z99ZgMvkQMrvtWIraL0IFNlIZFL-FYo44ACtQ0PkXgk
