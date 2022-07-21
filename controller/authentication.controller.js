@@ -98,20 +98,25 @@ module.exports = {
             message: "User does not exist",
           }
         );
-      }
-      if (!(await bcryptHelper.compareHashPassword(password, user.password))) {
-        generalResponse.errorResponse(res, httpCodestatus.BAD_REQUEST, {
-          message: "Invalid Password",
-        });
       } else {
-        let accessToken = await generateToken.generateAccess_RefreshToken(user);
-        var clone = Object.assign({}, user);
-        delete clone._doc.password;
-        generalResponse.successResponse(res, httpCodestatus.OK, {
-          status: true,
-          ...accessToken,
-          user: clone._doc,
-        });
+        if (
+          !(await bcryptHelper.compareHashPassword(password, user.password))
+        ) {
+          generalResponse.errorResponse(res, httpCodestatus.BAD_REQUEST, {
+            message: "Invalid Password",
+          });
+        } else {
+          let accessToken = await generateToken.generateAccess_RefreshToken(
+            user
+          );
+          var clone = Object.assign({}, user);
+          delete clone._doc.password;
+          generalResponse.successResponse(res, httpCodestatus.OK, {
+            status: true,
+            ...accessToken,
+            user: clone._doc,
+          });
+        }
       }
     } catch (err) {
       console.log("--", err);
