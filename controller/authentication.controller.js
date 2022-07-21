@@ -90,28 +90,31 @@ module.exports = {
       );
 
       if (!user) {
-        generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
-          status: false,
-          message: "User does not exist",
-        });
+        generalResponse.errorResponse(
+          res,
+          httpCodestatus.INTERNAL_SERVER_ERROR,
+          {
+            status: false,
+            message: "User does not exist",
+          }
+        );
       }
       if (!(await bcryptHelper.compareHashPassword(password, user.password))) {
         generalResponse.errorResponse(res, httpCodestatus.BAD_REQUEST, {
           message: "Invalid Password",
         });
       } else {
-        console.log("user", user);
-
         let accessToken = await generateToken.generateAccess_RefreshToken(user);
         var clone = Object.assign({}, user);
         delete clone._doc.password;
-        generalResponse.successResponse(res, httpCodes.NOT_FOUND, {
+        generalResponse.successResponse(res, httpCodestatus.OK, {
           status: true,
           ...accessToken,
           user: clone._doc,
         });
       }
     } catch (err) {
+      console.log("--", err);
       generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
         message: "Error Login In User",
         serverError: err,
