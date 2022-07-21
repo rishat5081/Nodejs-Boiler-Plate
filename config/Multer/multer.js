@@ -30,4 +30,4 @@ const uploadImage = multer({
   },
 }).any();
 
-module.exports = uploadImage;
+module.exports = { uploadImage };
