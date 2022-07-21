@@ -1,5 +1,4 @@
 {
-  "openapi": "3.0.1",
   "info": {
     "title": "Node js BoilerPlate",
     "version": "0.0.1",
@@ -41,7 +40,7 @@
           {
             "name": "email",
             "description": "Email to use for login.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -53,7 +52,7 @@
           {
             "name": "password",
             "description": "User's password.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -65,7 +64,7 @@
           {
             "name": "first_name",
             "description": "First Name of the User.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -77,7 +76,7 @@
           {
             "name": "last_name",
             "description": "Last Name of the User.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -89,7 +88,7 @@
           {
             "name": "address",
             "description": "Address of the User.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -101,7 +100,7 @@
           {
             "name": "contactNumber",
             "description": "Contact Number of the User.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "number",
             "schema": {
@@ -113,7 +112,7 @@
           {
             "name": "gender",
             "description": "Gender Can only be male, female, others.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -125,19 +124,19 @@
           {
             "name": "dateOfBirth",
             "description": "Date of Birth.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
               "type": "string",
               "maximum": 50,
-              "example": "13/Jan/1948"
+              "example": "date"
             }
           },
           {
             "name": "state",
             "description": "State of your current location.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -149,7 +148,7 @@
           {
             "name": "city",
             "description": "city of your current location.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -161,13 +160,13 @@
           {
             "name": "zipCode",
             "description": "Zip Code of your place.",
-            "in": "body",
+            "in": "formData",
             "required": true,
-            "type": "number",
+            "type": "string",
             "schema": {
-              "type": "number",
+              "type": "string",
               "maximum": 50,
-              "example": 46000
+              "example": "zip"
             }
           }
         ],
@@ -186,7 +185,7 @@
           {
             "name": "email",
             "description": "Email to use for login.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -198,7 +197,7 @@
           {
             "name": "password",
             "description": "User's password.",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "schema": {
@@ -215,12 +214,12 @@
         }
       }
     },
-    "/v1/user/userdetail": {
+    "/v1/user/userProfileDetail": {
       "get": {
         "tags": ["User"],
         "security": [
           {
-            "bearerAuth": []
+            "auth": []
           }
         ],
         "description": "Get User Details Route",
@@ -234,7 +233,135 @@
     "/v1/user/updateUserProfile": {
       "put": {
         "tags": ["User"],
+        "security": [
+          {
+            "auth": []
+          }
+        ],
         "description": "Refresh Token Route",
+        "parameters": [
+          {
+            "name": "email",
+            "description": "Email to use for login.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "test@gmail.com"
+            }
+          },
+          {
+            "name": "password",
+            "description": "User's password.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "test@12345"
+            }
+          },
+          {
+            "name": "first_name",
+            "description": "First Name of the User.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "John"
+            }
+          },
+          {
+            "name": "last_name",
+            "description": "Last Name of the User.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "Doe"
+            }
+          },
+          {
+            "name": "address",
+            "description": "Address of the User.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "House 6 Street 23 DHA Phase 76 Islamabad"
+            }
+          },
+          {
+            "name": "contactNumber",
+            "description": "Contact Number of the User.",
+            "in": "formData",
+            "type": "number",
+            "schema": {
+              "type": "number",
+              "maximum": 50,
+              "example": 6501
+            }
+          },
+          {
+            "name": "gender",
+            "description": "Gender Can only be male, female, others.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "male, female, others"
+            }
+          },
+          {
+            "name": "dateOfBirth",
+            "description": "Date of Birth.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "date"
+            }
+          },
+          {
+            "name": "state",
+            "description": "State of your current location.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "Punjab"
+            }
+          },
+          {
+            "name": "city",
+            "description": "city of your current location.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "Islamabad"
+            }
+          },
+          {
+            "name": "zipCode",
+            "description": "Zip Code of your place.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "zip"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -242,9 +369,14 @@
         }
       }
     },
-    "/v1/user/deletUser": {
+    "/v1/user/deleteProfile": {
       "delete": {
         "tags": ["User"],
+        "security": [
+          {
+            "auth": []
+          }
+        ],
         "description": "Delete User Route",
         "responses": {
           "200": {
@@ -256,7 +388,76 @@
     "/v1/user/resetPassword": {
       "put": {
         "tags": ["User"],
+        "security": [
+          {
+            "auth": []
+          }
+        ],
         "description": "Reset Password Route",
+        "parameters": [
+          {
+            "name": "oldPassword",
+            "description": "Old Password.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "admin123"
+            }
+          },
+          {
+            "name": "newPassword",
+            "description": "New Password.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "admin1234"
+            }
+          },
+          {
+            "name": "confirmPassword",
+            "description": "Confirm Password.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "admin1234"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/user/confirmPassword": {
+      "put": {
+        "tags": ["User"],
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "description": "confirm Password Route",
+        "parameters": [
+          {
+            "name": "password",
+            "description": "Enter Current Password.",
+            "in": "formData",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "maximum": 50,
+              "example": "admin1234"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -267,7 +468,20 @@
     "/v1/user/uploadProfileImage": {
       "post": {
         "tags": ["User"],
+        "security": [
+          {
+            "auth": []
+          }
+        ],
         "description": "Reset Password Route",
+        "parameters": [
+          {
+            "name": "image",
+            "description": "Upload Image.",
+            "in": "formData",
+            "type": "file"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
