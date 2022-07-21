@@ -86,34 +86,41 @@ module.exports = {
       console.log(err);
     }
   },
-  refreshToken: async (req, res) => {
-    try {
-      const refreshToken = req.body.token;
-      if (refreshToken == null)
-        return res.status(401).send({ message: "Invalid token send" });
-      if (!refreshToken.includes(refreshToken))
-        return res.status(403).send({ message: "Unathorized token " });
-      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
-        if (err) return res.status(403).send({ message: "Unathorized token " });
-        let accessToken = jwt.sign(user, process.env.TOKEN_KEY);
-        res.json({ accessToken: accessToken, user });
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  currentuser: async (req, res) => {
+  // refreshToken: async (req, res) => {
+  //   try {
+  //     const refreshToken = req.body.token;
+  //     if (refreshToken == null)
+  //       return res.status(401).send({ message: "Invalid token send" });
+  //     if (!refreshToken.includes(refreshToken))
+  //       return res.status(403).send({ message: "Unathorized token " });
+  //     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
+  //       if (err) return res.status(403).send({ message: "Unathorized token " });
+  //       let accessToken = jwt.sign(user, process.env.TOKEN_KEY);
+  //       res.json({ accessToken: accessToken, user });
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
+  getProfileDetails: async (req, res) => {
     try {
       let { _id } = req.user;
       let user = await UserModel.findOne({ _id }).select("-password");
-      if (user) {
-        return res.status(201).json({
+      if (user)
+        generalResponse.successResponse(res, httpCodes.FOUND, {
+          status: true,
           user,
         });
-      }
+      else
+        generalResponse.successResponse(res, httpCodes.NOT_FOUND, {
+          status: false,
+          message: "No Profile Found",
+        });
     } catch (err) {
-      console.log(err);
-      res.status(500).send(err);
+      generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+        status: false,
+        message: error.message,
+      });
     }
   },
   updateProfileUser: async (req, res) => {

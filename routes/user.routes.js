@@ -22,7 +22,7 @@ const accessControlValidation = require("../middleware/accessControl");
 router.get(
   "/userdetail",
   accessControlValidation.grantAccess("readOwn", "profile"),
-  userController.currentuser
+  userController.getProfileDetails
 );
 // /**
 //  * @swagger
