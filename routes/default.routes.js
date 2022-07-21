@@ -171,7 +171,7 @@ router.post(
 router.post(
   "/login",
   requestBodyValidation.checkRequestBody,
-  authenticateController.UserLogin
+  authenticateController.loginUser
 );
 
 module.exports = router;

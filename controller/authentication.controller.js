@@ -81,19 +81,20 @@ module.exports = {
       });
     }
   },
-  UserLogin: async (req, res) => {
+  loginUser: async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!(email && password)) {
-        return res.status(400).send("All input is required");
-      }
       const user = await UserModel.findOne({ email }).populate(
         "roleId",
         "roleName"
       );
 
-      if (!user) return res.status(400).send({ message: "user can't exist" });
-
+      if (!user) {
+        generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
+          status: false,
+          message: "User does not exist",
+        });
+      }
       if (!(await bcryptHelper.compareHashPassword(password, user.password))) {
         generalResponse.errorResponse(res, httpCodestatus.BAD_REQUEST, {
           message: "Invalid Password",
@@ -104,7 +105,8 @@ module.exports = {
         let accessToken = await generateToken.generateAccess_RefreshToken(user);
         var clone = Object.assign({}, user);
         delete clone._doc.password;
-        return res.status(200).json({
+        generalResponse.successResponse(res, httpCodes.NOT_FOUND, {
+          status: true,
           ...accessToken,
           user: clone._doc,
         });
