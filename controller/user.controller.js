@@ -1,6 +1,7 @@
 const UserModel = require("../models/User"),
   generalResponse = require("../utlls/response"),
   bcryptHelper = require("../utlls/bcrypt.helper"),
+  { uploadImage } = require("../config/Multer/multer"),
   httpCodes = require("../utlls/httpCodestatus");
 
 module.exports = {
@@ -180,37 +181,44 @@ module.exports = {
 
   uploadProfileImage: async (req, res) => {
     try {
-      const { password, userId } = req.body;
-      if (!password && !userId) {
-        res
-          .status(httpCodes.BAD_REQUEST)
-          .send({ status: false, message: "Password or User Id is Missing" });
-        res.end();
-        return;
-      } else {
-        const userPassword = await UserModel.findOne({
-          _id: userId,
-        }).select("password");
+      console.log(" ----------", req.files);
 
-        if (userPassword?._id) {
-          const match = await bcrypt.compare(password, userPassword.password);
+      generalResponse.successResponse(res, httpCodes.OK, {
+        status: true,
+        message: "File Uploaded",
+      });
 
-          if (match)
-            generalResponse.successResponse(res, httpCodes.OK, {
-              status: true,
-              message: "Password matched Successfully",
-            });
-          else
-            generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-              status: false,
-              message: "Wrong Password",
-            });
-        } else
-          generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-            status: false,
-            message: "No User Found",
-          });
-      }
+      // const { password, userId } = req.body;
+      // if (!password && !userId) {
+      //   res
+      //     .status(httpCodes.BAD_REQUEST)
+      //     .send({ status: false, message: "Password or User Id is Missing" });
+      //   res.end();
+      //   return;
+      // } else {
+      //   const userPassword = await UserModel.findOne({
+      //     _id: userId,
+      //   }).select("password");
+
+      //   if (userPassword?._id) {
+      //     const match = await bcrypt.compare(password, userPassword.password);
+
+      //     if (match)
+      //       generalResponse.successResponse(res, httpCodes.OK, {
+      //         status: true,
+      //         message: "Password matched Successfully",
+      //       });
+      //     else
+      //       generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+      //         status: false,
+      //         message: "Wrong Password",
+      //       });
+      //   } else
+      //     generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+      //       status: false,
+      //       message: "No User Found",
+      //     });
+      // }
     } catch (error) {
       generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
         status: false,
