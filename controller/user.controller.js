@@ -198,35 +198,28 @@ module.exports = {
   },
   resetPassword: async (req, res) => {
     try {
-      const { password, userId } = req.body;
-      if (!password && !userId) {
-        res
-          .status(httpCodes.BAD_REQUEST)
-          .send({ status: false, message: "Password or User Id is Missing" });
-        res.end();
-        return;
-      } else {
-        const hashedPassword = await bcrypt.hash(password, process.env.SALT);
-        const userPasswordUpdate = await UserModel.updateOne(
-          {
-            _id: userId,
-          },
-          {
-            password: hashedPassword,
-          }
-        );
+      const { password } = req.body;
+      const { _id } = req.user;
+      const hashedPassword = await bcryptHelper.generateHashPassword(password);
+      const userPasswordUpdate = await UserModel.updateOne(
+        {
+          _id,
+        },
+        {
+          password: hashedPassword,
+        }
+      );
 
-        if (userPasswordUpdate)
-          generalResponse.successResponse(res, httpCodes.OK, {
-            status: true,
-            message: "Password is Updated Successfully",
-          });
-        else
-          generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-            status: false,
-            message: "Password is not Updated",
-          });
-      }
+      if (userPasswordUpdate)
+        generalResponse.successResponse(res, httpCodes.OK, {
+          status: true,
+          message: "Password is Updated Successfully",
+        });
+      else
+        generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+          status: false,
+          message: "Password is not Updated",
+        });
     } catch (error) {
       generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
         status: false,
