@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css"
+      integrity="sha512-HrLBWHEIRcc9ZemiLhR34DVdkr81NVqhOtT1fIZGdcY5UmC5JzJAEwuj9B/fcNA6huJ3NQ8KV67CmdM/3H2H3g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="/css/index.css" />
+    <title>Get All User</title>
+  </head>
+  <body onload="getUsersDetails()">
+    <div
+      id="loader"
+      class="loader loader-default is-active"
+      data-text="Getting User Details"
+      data-blink
+    ></div>
+
+    <table class="table" id="userDetailsTable">
+      <thead>
+        <tr>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Address</th>
+          <th scope="col">Address Secondary</th>
+          <th scope="col">State</th>
+          <th scope="col">ZipCode</th>
+          <th scope="col">City</th>
+          <th scope="col">Avatar</th>
+          <th scope="col">Gender</th>
+
+          <th scope="col">DateOfBirth</th>
+          <th scope="col">Contact Number</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+      integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      toastr.options = {
+        closeButton: false,
+        debug: false,
+        newestOnTop: false,
+        progressBar: false,
+        positionClass: "toast-top-center",
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+      };
+
+      function getUsersDetails() {
+        $.ajax({
+          type: "GET",
+          url: `${window.location.origin}/admin/getAllUserDetails`,
+          dataType: "JSON",
+          error: (error) => {
+            toastr.error("Error Getting Users");
+          },
+          success: (response) => {
+            const tableBody = document.getElementById("tableBody");
+            const table = document.getElementById("userDetailsTable");
+
+            response[0].usersDetails.forEach((user) => {
+              const tr = document.createElement("tr");
+              Object.keys(user).forEach((userObject) => {
+                const tempTd = document.createElement("td");
+                tempTd.innerHTML = user[userObject] ? user[userObject] : "-";
+                tr.append(tempTd);
+              });
+
+              tableBody.appendChild(tr);
+              // table.append(tableBody);
+            });
+
+            $("#loader").removeClass("loader-default");
+            $("#loader").removeClass("is-active");
+            $("#loader").removeClass("loader");
+            toastr.success(response[0].message);
+          },
+        });
+        //   });
+      }
+    </script>
+  </body>
+</html>
