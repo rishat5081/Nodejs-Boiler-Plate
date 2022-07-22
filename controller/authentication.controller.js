@@ -113,6 +113,7 @@ module.exports = {
           delete clone._doc.password;
           generalResponse.successResponse(res, httpCodestatus.OK, {
             status: true,
+            message: "Logged In Successfully",
             ...accessToken,
             user: clone._doc,
           });
