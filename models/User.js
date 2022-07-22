@@ -63,7 +63,7 @@ const userSchema = new Schema({
     default: "",
   },
   contactNumber: {
-    type: Number,
+    type: String,
     default: 0.0,
   },
   isNewProfile: {
