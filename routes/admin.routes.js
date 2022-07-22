@@ -12,6 +12,10 @@ router.get("/", (req, res) => {
   res.render("login");
 });
 
+router.get("/getAllUser", (req, res) => {
+  res.render("getAllUsers");
+});
+
 /***
  *
  *
@@ -57,6 +61,30 @@ router.post("/login", async (req, res) => {
     console.log("--", err);
     generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
       message: "Error Login In User",
+      serverError: err,
+    });
+  }
+});
+
+router.get("/getAllUserDetails", async (req, res) => {
+  try {
+    const usersDetails = await UserModel.find().select(
+      "-password -geoLocation -__v -_id -isNewProfile -isDeleted -roleId"
+    );
+    if (usersDetails.length === 0)
+      generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
+        status: false,
+        message: "No User Found",
+      });
+    else
+      generalResponse.successResponse(res, httpCodestatus.OK, {
+        status: true,
+        message: "Fetched the User Details Successfully",
+        usersDetails,
+      });
+  } catch (err) {
+    generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
+      message: "Error Fetching the User",
       serverError: err,
     });
   }
