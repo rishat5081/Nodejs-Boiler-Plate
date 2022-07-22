@@ -9,9 +9,9 @@ const createUserData = async () => {
       last_name: faker.name.lastName(),
       email: faker.internet.email(),
       password: await hashingPassword.generateHashPassword("admin123"),
-      avatar: faker.internet.avatar(),
+      gender: "male",
       address: faker.address.streetAddress(),
-      address_2: faker.address.secondaryAddress(),
+      addressSecondary: faker.address.secondaryAddress(),
       state: faker.address.state(),
       zipCode: faker.address.zipCode(),
       city: faker.address.city(),
@@ -19,6 +19,8 @@ const createUserData = async () => {
         longitude: -180 + Math.random() * 360,
         latitude: -89.99 + Math.random() * 180,
       },
+      dateOfBirth: faker.date.between(),
+      contactNumber: faker.phone.imei(),
       avatar: "public/userprofileImage/API1658476924535.jpeg",
     });
   }
