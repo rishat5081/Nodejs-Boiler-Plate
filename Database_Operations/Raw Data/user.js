@@ -19,6 +19,7 @@ const createUserData = async () => {
         longitude: -180 + Math.random() * 360,
         latitude: -89.99 + Math.random() * 180,
       },
+      avatar: "public/userprofileImage/API1658476924535.jpeg",
     });
   }
   return userData;
