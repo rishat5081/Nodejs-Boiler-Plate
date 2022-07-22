@@ -9,3 +9,11 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
 }
+
+.table {
+  overflow: auto;
+  scroll-behavior: auto;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
