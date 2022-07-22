@@ -2,7 +2,9 @@ const UserModel = require("../models/User"),
   generalResponse = require("../utlls/response"),
   bcryptHelper = require("../utlls/bcrypt.helper"),
   { uploadImage } = require("../config/Multer/multer"),
-  httpCodes = require("../utlls/httpCodestatus");
+  httpCodes = require("../utlls/httpCodestatus"),
+  fs = require("fs"),
+  path = require("path");
 
 module.exports = {
   getProfileDetails: async (req, res) => {
@@ -181,45 +183,34 @@ module.exports = {
 
   uploadProfileImage: async (req, res) => {
     try {
-      console.log(" ----------", req.files);
+      console.log(" ----------", req.file);
+      const { _id } = req.user;
+      const userFiles = await UserModel.findOne({
+        _id,
+      }).select("avatar");
 
-      generalResponse.successResponse(res, httpCodes.OK, {
-        status: true,
-        message: "File Uploaded",
-      });
+      if (userFiles?.avatar) await fs.unlinkSync(path.join(userFiles.avatar));
 
-      // const { password, userId } = req.body;
-      // if (!password && !userId) {
-      //   res
-      //     .status(httpCodes.BAD_REQUEST)
-      //     .send({ status: false, message: "Password or User Id is Missing" });
-      //   res.end();
-      //   return;
-      // } else {
-      //   const userPassword = await UserModel.findOne({
-      //     _id: userId,
-      //   }).select("password");
-
-      //   if (userPassword?._id) {
-      //     const match = await bcrypt.compare(password, userPassword.password);
-
-      //     if (match)
-      //       generalResponse.successResponse(res, httpCodes.OK, {
-      //         status: true,
-      //         message: "Password matched Successfully",
-      //       });
-      //     else
-      //       generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-      //         status: false,
-      //         message: "Wrong Password",
-      //       });
-      //   } else
-      //     generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
-      //       status: false,
-      //       message: "No User Found",
-      //     });
-      // }
+      const userAvatarUpdate = await UserModel.updateOne(
+        {
+          _id,
+        },
+        {
+          avatar: req.file.path,
+        }
+      );
+      if (userAvatarUpdate)
+        generalResponse.successResponse(res, httpCodes.OK, {
+          status: true,
+          message: "File Uploaded",
+        });
+      else
+        generalResponse.errorResponse(res, httpCodes.BAD_REQUEST, {
+          status: true,
+          message: "File Uploaded",
+        });
     } catch (error) {
+      console.log("error", error);
       generalResponse.errorResponse(res, httpCodes.INTERNAL_SERVER_ERROR, {
         status: false,
         message: error.message,
