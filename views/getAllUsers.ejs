@@ -100,7 +100,9 @@
           url: `${window.location.origin}/admin/getAllUserDetails`,
           dataType: "JSON",
           error: (error) => {
-            toastr.error("Error Getting Users");
+            toastr.error(error.responseJSON[0].message);
+            if (!error.responseJSON[0].status)
+              window.location = `${window.location.origin}/admin`;
           },
           success: (response) => {
             const tableBody = document.getElementById("tableBody");
@@ -115,7 +117,6 @@
               });
 
               tableBody.appendChild(tr);
-              // table.append(tableBody);
             });
 
             $("#loader").removeClass("loader-default");
