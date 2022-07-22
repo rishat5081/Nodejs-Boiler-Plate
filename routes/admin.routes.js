@@ -4,6 +4,9 @@ const httpCodestatus = require("../utlls/httpCodestatus");
 const UserModel = require("../models/User");
 const bcryptHelper = require("../utlls/bcrypt.helper"),
   generateToken = require("../helper/generateToken");
+const accessControlValidation = require("../middleware/accessControl");
+const verifyToken = require("../middleware/auth");
+
 /**
  *
  *
@@ -66,28 +69,38 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/getAllUserDetails", async (req, res) => {
-  try {
-    const usersDetails = await UserModel.find().select(
-      "-password -geoLocation -__v -_id -isNewProfile -isDeleted -roleId"
-    );
-    if (usersDetails.length === 0)
+router.get(
+  "/getAllUserDetails",
+  verifyToken,
+  accessControlValidation.allowIfLoggedin,
+  accessControlValidation.grantAccess("readAny", "profile"),
+  async (req, res) => {
+    try {
+      const usersDetails = await UserModel.find().select(
+        "-password -geoLocation -__v -_id -isNewProfile -isDeleted -roleId"
+      );
+      if (usersDetails.length === 0)
+        generalResponse.errorResponse(
+          res,
+          httpCodestatus.INTERNAL_SERVER_ERROR,
+          {
+            status: false,
+            message: "No User Found",
+          }
+        );
+      else
+        generalResponse.successResponse(res, httpCodestatus.OK, {
+          status: true,
+          message: "Fetched the User Details Successfully",
+          usersDetails,
+        });
+    } catch (err) {
       generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
-        status: false,
-        message: "No User Found",
+        message: "Error Fetching the User",
+        serverError: err,
       });
-    else
-      generalResponse.successResponse(res, httpCodestatus.OK, {
-        status: true,
-        message: "Fetched the User Details Successfully",
-        usersDetails,
-      });
-  } catch (err) {
-    generalResponse.errorResponse(res, httpCodestatus.INTERNAL_SERVER_ERROR, {
-      message: "Error Fetching the User",
-      serverError: err,
-    });
+    }
   }
-});
+);
 
 module.exports = router;
