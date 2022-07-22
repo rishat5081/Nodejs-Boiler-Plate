@@ -56,9 +56,7 @@ app.use("/admin", adminRoutes);
 
 const swaggerOption = {
   definition: {
-    // openapi: "3.0.1", // YOU NEED THIS
     info: {
-      // API informations (required)
       title: "Node js BoilerPlate", // Title (required)
       version: "1.0.0", // Version (required)
       description: "A sample API for Node js Project", // Description (optional),
@@ -69,23 +67,6 @@ const swaggerOption = {
         name: "Authorization",
       },
     },
-    // security: [{ auth: [] }],
-    // consumes: ["*"],
-    // produces: ["*"],
-    // components: {
-    //   securitySchemes: {
-    //     bearerAuth: {
-    //       type: "http",
-    //       scheme: "bearer",
-    //       bearerFormat: "JWT",
-    //     },
-    //   },
-    // },
-    // security: [
-    //   {
-    //     BearerAuth: [],
-    //   },
-    // ],
     servers: [
       {
         url: "http://localhost:5050",
@@ -93,13 +74,19 @@ const swaggerOption = {
       },
     ],
   },
-  // schemes: ["https", "http"],
   apis: ["server.js", "./routes/*.routes.js"],
   basePath: "/v1",
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOption);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+app.get("/", async (req, res) => {
+  generalResponse.successResponse(res, httpCodes.OK, {
+    status: true,
+    message: "Node js Boiler Plate",
+  });
+});
 
 app.all("*", async (req, res) => {
   generalResponse.successResponse(res, httpCodes.OK, {
