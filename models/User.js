@@ -39,6 +39,10 @@ const userSchema = new Schema({
     type: String,
     default: "",
   },
+  avatar: {
+    type: String,
+    default: "",
+  },
   geoLocation: {
     longitude: {
       type: String,
