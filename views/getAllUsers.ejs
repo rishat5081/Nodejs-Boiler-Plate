@@ -107,7 +107,6 @@
           success: (response) => {
             const tableBody = document.getElementById("tableBody");
             const table = document.getElementById("userDetailsTable");
-
             response[0].usersDetails.forEach((user) => {
               const tr = document.createElement("tr");
               Object.keys(user).forEach((userObject) => {
