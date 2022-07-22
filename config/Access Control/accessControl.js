@@ -18,6 +18,7 @@ exports.roles = (function () {
    */
   ac.grant(Stakeholders.admin)
     .extend(Stakeholders.user)
+    .readAny("profile")
     .updateAny("profile")
     .deleteAny("profile");
   return ac;
