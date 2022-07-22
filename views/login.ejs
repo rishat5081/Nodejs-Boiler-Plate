@@ -96,6 +96,8 @@
           },
           success: (response) => {
             if (response.length > 0) {
+              toastr.success(response[0].message);
+
               localStorage.setItem("adminDetails", response[0].user);
 
               localStorage.setItem("adminToken", response[0].accessToken);
@@ -104,12 +106,8 @@
                 "adminRefreshToken",
                 response[0].refreshToken
               );
-              toastr.success(response[0].message);
-            }
 
-            if (response.success) {
-              alert(response.success);
-              // window.location = `${window.location.origin}/user/activities/${response.agencyID}/${response.activity}`;
+              window.location = `${window.location.origin}/admin/getAllUser`;
             }
           },
         });
