@@ -3,7 +3,6 @@ const User = require("./user.routes");
 const GeneralRoutes = require("./default.routes");
 
 const verifyToken = require("../middleware/auth");
-const requestBodyValidation = require("../middleware/requestBodyValidation");
 const accessControlValidation = require("../middleware/accessControl");
 
 /***
