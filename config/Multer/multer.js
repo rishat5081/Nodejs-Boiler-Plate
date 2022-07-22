@@ -28,6 +28,6 @@ const uploadImage = multer({
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
-}).single();
+}).single("image");
 
 module.exports = { uploadImage };
